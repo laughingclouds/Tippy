@@ -7,6 +7,7 @@ import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int INITIAL_TIP_PERCENT = 15;
+    private TextView tvAuthorGhLink;
     private TextView tvTipDescription;
     private EditText etBaseAmount;
     private SeekBar seekBarTip;
@@ -21,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvTipAmount;
     private TextView tvTotalAmount;
 
-    /**
-     *
-     */
     protected void recalculateTip() {
         // 1. get value of base amount and tip percentage
         Double baseAmount;
@@ -69,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tvAuthorGhLink = findViewById(R.id.tvAuthorGhLink);
+        tvAuthorGhLink.setMovementMethod(LinkMovementMethod.getInstance());
 
         etBaseAmount = findViewById(R.id.etBaseAmount);
         seekBarTip = findViewById(R.id.seekBarTip);

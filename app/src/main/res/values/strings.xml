@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Tippy</string>
-    <string name="app_footer_text">with ❤️ by <a href="https://github.com/laughingclouds">clouds</a></string>
+    <string name="app_footer_text">with ❤️ by</string>
+    <string name="author_gh_link"><a href="https://github.com/laughingclouds">clouds</a></string>
 </resources>
