@@ -1,7 +1,9 @@
 package com.github.laughingclouds.tippy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int INITIAL_TIP_PERCENT = 15;
+    private TextView tvTipDescription;
     private EditText etBaseAmount;
     private SeekBar seekBarTip;
     private TextView tvTipPercentLabel;
@@ -38,6 +41,30 @@ public class MainActivity extends AppCompatActivity {
         tvTotalAmount.setText(totalAmount.toString());
     }
 
+    protected void updateTipDescription(int tipPercent) {
+        String description = "";
+
+        if (tipPercent < 10)
+            description = "don't";
+        else if (tipPercent < 15)
+            description = "hmmm";
+        else if (tipPercent < 20)
+            description = "we're getting there";
+        else if (tipPercent < 25)
+            description = "great";
+        else
+            description = "a little too much innit?";
+
+        tvTipDescription.setText(description);
+        int colorDescription = (int) new ArgbEvaluator().evaluate(
+                (float) tipPercent / seekBarTip.getMax(),
+                ContextCompat.getColor(this, R.color.color_worst_tip),
+                ContextCompat.getColor(this, R.color.color_best_tip)
+        );
+
+        tvTipDescription.setTextColor(colorDescription);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
         tvTipPercentLabel = findViewById(R.id.tvTipPercentLabel);
         tvTipAmount = findViewById(R.id.tvTipAmount);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
+        tvTipDescription = findViewById(R.id.tvTipDescription);
 
         // initialize values
         seekBarTip.setProgress(INITIAL_TIP_PERCENT);
         tvTipPercentLabel.setText(String.format("%d%%", INITIAL_TIP_PERCENT));
+        updateTipDescription(INITIAL_TIP_PERCENT);
 
         // add event listeners
         etBaseAmount.addTextChangedListener(new TextWatcher() {
@@ -74,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 tvTipPercentLabel.setText(String.format("%d%%", progress));
                 recalculateTip();
+                updateTipDescription(progress);
             }
 
             @Override
