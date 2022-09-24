@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         int tipPercent = seekBarTip.getProgress();
         // 2. compute the tip and total
         Double tipAmount = baseAmount * tipPercent / 100;
-        Double totalAmount = baseAmount - tipAmount;
+        Double totalAmount = baseAmount + tipAmount;
         // 3. update the ui
         tvTipAmount.setText(tipAmount.toString());
         tvTotalAmount.setText(totalAmount.toString());
